@@ -202,8 +202,6 @@ class ModuleInterface:
     def get_label_info(self, label_id):
         label_data = self.session.get_label(label_id)
         print(label_data) #TESTING
-        #with open('label_data.log','w') as data:
-        #    data.write(str(label_data))
 
         json_object = json.dumps(label_data, indent=4)
         with open("label_data.json", "w") as outfile:
@@ -218,13 +216,15 @@ class ModuleInterface:
 
     def get_artist_info(self, artist_id, get_credited_albums):
         artist_data = self.session.get_artist(artist_id)
-        albums = [str(album['id']) for album in artist_data['albums']['items']]
-        #with open('DownloadTypeEnum.log','w') as data:
-        #    data.write(str(DownloadTypeEnum))
-        #with open('results.log','w') as data:
-        #    data.write(str(results))
+
         print(artist_data) #TESTING
-        #print(albums) #TESTING
+
+        json_object = json.dumps(artist_data, indent=4)
+        with open("artist_data.json", "w") as outfile:
+            outfile.write(json_object)
+
+        albums = [str(album['id']) for album in artist_data['albums']['items']]
+
         return ArtistInfo(
             name = artist_data['name'],
             albums = albums
