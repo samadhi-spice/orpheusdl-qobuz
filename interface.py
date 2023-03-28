@@ -234,6 +234,10 @@ class ModuleInterface:
             results = self.session.search(query_type.name, track_info.tags.isrc, limit)
         if not results:
             results = self.session.search(query_type.name, query, limit)
+        with open('DownloadTypeEnum.log','w') as data:
+            data.write(str(DownloadTypeEnum))
+        with open('results.log','w') as data:
+            data.write(str(results))
         #print(DownloadTypeEnum) #TESTING
         #print(results) #TESTING
 
