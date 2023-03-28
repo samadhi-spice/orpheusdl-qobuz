@@ -119,7 +119,7 @@ class ModuleInterface:
 
         album_name = album_data.get('title').rstrip()
         album_name += f' ({album_data.get("version")})' if album_data.get("version") else ''
-
+        print(f'Track "{track_data["title"]}" is not streamable!')
         return TrackInfo(
             name = track_name,
             album_id = album_data['id'],
