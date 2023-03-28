@@ -139,6 +139,12 @@ class ModuleInterface:
         album_data = self.session.get_album(album_id)
         booklet_url = album_data['goodies'][0]['url'] if 'goodies' in album_data and len(album_data['goodies']) != 0 else None
 
+        print(album_data) #TESTING
+
+        json_object = json.dumps(album_data, indent=4)
+        with open("album_data.json", "w") as outfile:
+            outfile.write(json_object)
+
         tracks, extra_kwargs = [], {}
         for track in album_data.pop('tracks')['items']:
             track_id = str(track['id'])
