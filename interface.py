@@ -234,6 +234,7 @@ class ModuleInterface:
             results = self.session.search(query_type.name, track_info.tags.isrc, limit)
         if not results:
             results = self.session.search(query_type.name, query, limit)
+        print(DownloadTypeEnum) #TESTING
         print(results) #TESTING
 
         items = []
