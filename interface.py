@@ -201,6 +201,8 @@ class ModuleInterface:
     def get_label_info(self, label_id):
         label_data = self.session.get_label(label_id)
         print(label_data) #TESTING
+        with open('label_data.log','w') as data:
+            data.write(str(label_data))
         albums = [str(album['id']) for album in label_data['albums']['items']]
 
         return LabelInfo(
