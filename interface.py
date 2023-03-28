@@ -55,6 +55,12 @@ class ModuleInterface:
         track_data = data[track_id] if track_id in data else self.session.get_track(track_id)
         album_data = track_data['album']
 
+        print(track_data) #TESTING
+
+        json_object = json.dumps(track_data, indent=4)
+        with open("track_data.json", "w") as outfile:
+            outfile.write(json_object)
+
         quality_tier = self.quality_parse[quality_tier]
 
         main_artist = track_data.get('performer', album_data['artist'])
