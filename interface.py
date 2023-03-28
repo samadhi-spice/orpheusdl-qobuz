@@ -61,7 +61,7 @@ class ModuleInterface:
         with open("track_data.json", "w") as outfile:
             outfile.write(json_object)
         isstreamable = track_data['streamable']
-        print(isstreamable)
+        #print(isstreamable)
 
         quality_tier = self.quality_parse[quality_tier]
 
