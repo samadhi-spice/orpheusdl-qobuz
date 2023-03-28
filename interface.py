@@ -208,12 +208,12 @@ class ModuleInterface:
             outfile.write(json_object)
 
         albums = [str(album['id']) for album in label_data['albums']['items']]
-        names = [str(album['artists'][0]['name']) for album in label_data['albums']['items']]
+        names = [str(album['artist'][0]['name']) for album in label_data['albums']['items']]
         # name='Scott Sullivan', albums=['hoak2xlwzetha', 'vc8yy71pyzqna', 'xi8jvww76oahc']
 
         return LabelInfo(
             #name = label_data['name'],
-            label_name = label_name,
+            label_name = label_data['name'],
             names = names,
             albums = albums
         )
