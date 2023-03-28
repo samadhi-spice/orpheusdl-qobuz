@@ -201,7 +201,12 @@ class ModuleInterface:
     def get_artist_info(self, artist_id, get_credited_albums):
         artist_data = self.session.get_artist(artist_id)
         albums = [str(album['id']) for album in artist_data['albums']['items']]
-
+        #with open('DownloadTypeEnum.log','w') as data:
+        #    data.write(str(DownloadTypeEnum))
+        #with open('results.log','w') as data:
+        #    data.write(str(results))
+        print(artist_data) #TESTING
+        #print(albums) #TESTING
         return ArtistInfo(
             name = artist_data['name'],
             albums = albums
@@ -234,12 +239,6 @@ class ModuleInterface:
             results = self.session.search(query_type.name, track_info.tags.isrc, limit)
         if not results:
             results = self.session.search(query_type.name, query, limit)
-        with open('DownloadTypeEnum.log','w') as data:
-            data.write(str(DownloadTypeEnum))
-        with open('results.log','w') as data:
-            data.write(str(results))
-        #print(DownloadTypeEnum) #TESTING
-        #print(results) #TESTING
 
         items = []
         for i in results[query_type.name + 's']['items']:
