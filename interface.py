@@ -20,6 +20,7 @@ module_information = ModuleInformation(
         'playlist': DownloadTypeEnum.playlist,
         'artist': DownloadTypeEnum.artist,
         'interpreter': DownloadTypeEnum.artist
+        'label': DownloadTypeEnum.label
     },
     test_url = 'https://open.qobuz.com/track/52151405'
 )
@@ -48,7 +49,7 @@ class ModuleInterface:
         token = self.session.login(email, password)
         self.session.auth_token = token
         self.module_controller.temporary_settings_controller.set('token', token)
-    
+
     def get_track_info(self, track_id, quality_tier: QualityEnum, codec_options: CodecOptions, data={}):
         track_data = data[track_id] if track_id in data else self.session.get_track(track_id)
         album_data = track_data['album']
@@ -233,11 +234,15 @@ class ModuleInterface:
             results = self.session.search(query_type.name, track_info.tags.isrc, limit)
         if not results:
             results = self.session.search(query_type.name, query, limit)
+        print(results) #TESTING
 
         items = []
         for i in results[query_type.name + 's']['items']:
             duration = None
             if query_type is DownloadTypeEnum.artist:
+                artists = None
+                year = None
+            elif query_type is DownloadTypeEnum.label:
                 artists = None
                 year = None
             elif query_type is DownloadTypeEnum.playlist:
