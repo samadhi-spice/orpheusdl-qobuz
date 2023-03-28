@@ -116,6 +116,15 @@ class Qobuz:
             'extra': 'albumsFromSameArtist,focusAll'
         })
 
+    def get_label(self, label_id: str):
+        return self._get('label/get', params={
+            'label_id': label_id,
+            'app_id': self.app_id,
+            'extra': 'albums,playlists,tracks_appears_on,albums_with_last_release,focusAll',
+            'limit': '1000',
+            'offset': '0'
+        })
+
     def get_artist(self, artist_id: str):
         return self._get('artist/get', params={
             'artist_id': artist_id,

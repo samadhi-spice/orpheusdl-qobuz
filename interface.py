@@ -198,6 +198,15 @@ class ModuleInterface:
             track_extra_kwargs = {'data': extra_kwargs}
         )
 
+    def get_label_info(self, label_id):
+        label_data = self.session.get_label(label_id)
+        albums = [str(album['id']) for album in label_data['albums']['items']] -
+
+        return LabelInfo(
+            name = label_data['name'],
+            albums = albums
+        )
+
     def get_artist_info(self, artist_id, get_credited_albums):
         artist_data = self.session.get_artist(artist_id)
         albums = [str(album['id']) for album in artist_data['albums']['items']]
