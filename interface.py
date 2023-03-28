@@ -116,7 +116,7 @@ class ModuleInterface:
         if stream_data.get('format_id') in {6, 7, 27}:
             bitrate = int((stream_data['sampling_rate'] * 1000 * stream_data['bit_depth'] * 2) // 1000)
         elif not stream_data.get('format_id'):
-            bitrate = stream_data.get('format_id')
+            bitrate = 'null'#stream_data.get('format_id')
 
         # track and album title fix to include version tag
         track_name = f"{track_data.get('work')} - " if track_data.get('work') else ""
