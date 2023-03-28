@@ -137,7 +137,7 @@ class ModuleInterface:
             duration = track_data.get('duration'),
             credits_extra_kwargs = {'data': {track_id: track_data}},
             download_extra_kwargs = {'url': stream_data.get('url')},
-            error=f'Track "{track_data['title']}" is not streamable!' if not track_data['streamable'] else None
+            error=f'Track "{track_data["title"]}" is not streamable!' if not track_data['streamable'] else None
         )
 
     def get_track_download(self, url):
