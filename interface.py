@@ -213,6 +213,7 @@ class ModuleInterface:
 
         return LabelInfo(
             #name = label_data['name'],
+            label_name = label_name,
             names = names,
             albums = albums
         )
