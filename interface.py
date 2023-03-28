@@ -108,9 +108,9 @@ class ModuleInterface:
 
         stream_data = self.session.get_file_url(track_id, quality_tier)
 
-        json_object = json.dumps(stream_data, indent=4)
-        with open("stream_data.json", "w") as outfile:
-            outfile.write(json_object)
+        #json_object = json.dumps(stream_data, indent=4)
+        #with open("stream_data.json", "w") as outfile:
+        #    outfile.write(json_object)
         # uncompressed PCM bitrate calculation, not quite accurate for FLACs due to the up to 60% size improvement
         bitrate = 320
         if stream_data.get('format_id') in {6, 7, 27}:
