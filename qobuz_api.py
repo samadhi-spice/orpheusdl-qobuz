@@ -120,8 +120,7 @@ class Qobuz:
         return self._get('label/get', params={
             'label_id': label_id,
             'app_id': self.app_id,
-            #'extra': 'albums,playlists,tracks_appears_on,albums_with_last_release,focusAll',
-            'extra': 'albums,focusAll' #from {"status":"error","code":400,"message":"Invalid argument: extra (accepted values are albums, focus, focusAll)"}
+            'extra': 'albums,focusAll', #from {"status":"error","code":400,"message":"Invalid argument: extra (accepted values are albums, focus, focusAll)"}
             'limit': '1000',
             'offset': '0'
         })
