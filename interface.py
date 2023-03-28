@@ -19,7 +19,7 @@ module_information = ModuleInformation(
         'album': DownloadTypeEnum.album,
         'playlist': DownloadTypeEnum.playlist,
         'artist': DownloadTypeEnum.artist,
-        'interpreter': DownloadTypeEnum.artist
+        'interpreter': DownloadTypeEnum.artist,
         'label': DownloadTypeEnum.label
     },
     test_url = 'https://open.qobuz.com/track/52151405'
