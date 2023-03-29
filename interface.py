@@ -106,7 +106,7 @@ class ModuleInterface:
             genres = [album_data['genre']['name']],
             )
         if track_data.get('audio_info'):
-            tags = Tags(
+            tags += Tags(
                 replay_gain = track_data.get('audio_info').get('replaygain_track_gain'),
                 replay_peak = track_data.get('audio_info').get('replaygain_track_peak'),
             )
