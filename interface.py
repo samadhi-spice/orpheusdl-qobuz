@@ -11,8 +11,9 @@ module_information = ModuleInformation(
     service_name = 'Qobuz',
     module_supported_modes = ModuleModes.download | ModuleModes.credits,
     global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{sample_rate}kHz {bit_depth}bit'},
-    session_settings = {'username': '', 'password': ''},
+    session_settings = {'username': '', 'password': '', 'token': ''},
     session_storage_variables = ['token'],
+    login_behaviour = ManualEnum.manual,
     netlocation_constant = 'qobuz',
     url_constants={
         'track': DownloadTypeEnum.track,
