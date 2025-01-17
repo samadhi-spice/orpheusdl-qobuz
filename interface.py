@@ -10,10 +10,9 @@ from .qobuz_api import Qobuz
 module_information = ModuleInformation(
     service_name = 'Qobuz',
     module_supported_modes = ModuleModes.download | ModuleModes.credits,
-    global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{sample_rate}kHz {bit_depth}bit'},
-    session_settings = {'username': '', 'password': ''},
-    session_storage_variables = ['token'],
+    global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{sample_rate}kHz {bit_depth}bit', 'user_id':'', 'auth_token': ''},
     netlocation_constant = 'qobuz',
+    login_behaviour = ManualEnum.manual,
     url_constants={
         'track': DownloadTypeEnum.track,
         'album': DownloadTypeEnum.album,
