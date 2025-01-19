@@ -12,6 +12,7 @@ module_information = ModuleInformation(
     module_supported_modes = ModuleModes.download | ModuleModes.credits,
     global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{sample_rate}kHz {bit_depth}bit'},
 <<<<<<< HEAD
+<<<<<<< HEAD
     session_settings = {'username': '', 'password': '', 'user_id': '', 'token': ''},
     session_storage_variables = ['user_id', 'token'],
 =======
@@ -19,6 +20,10 @@ module_information = ModuleInformation(
     session_storage_variables = ['userid', 'token'],
 >>>>>>> parent of 7513b81 (revert)
     login_behaviour = ManualEnum.manual,
+=======
+    session_settings = {'username': '', 'password': ''},
+    session_storage_variables = ['token'],
+>>>>>>> parent of 99ae3e5 (global settings)
     netlocation_constant = 'qobuz',
     url_constants={
         'track': DownloadTypeEnum.track,
