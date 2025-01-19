@@ -11,8 +11,13 @@ module_information = ModuleInformation(
     service_name = 'Qobuz',
     module_supported_modes = ModuleModes.download | ModuleModes.credits,
     global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{sample_rate}kHz {bit_depth}bit'},
+<<<<<<< HEAD
     session_settings = {'username': '', 'password': '', 'user_id': '', 'token': ''},
     session_storage_variables = ['user_id', 'token'],
+=======
+    session_settings = {'username': '', 'password': '', 'userid': '', 'token': ''},
+    session_storage_variables = ['userid', 'token'],
+>>>>>>> parent of 7513b81 (revert)
     login_behaviour = ManualEnum.manual,
     netlocation_constant = 'qobuz',
     url_constants={
