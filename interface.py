@@ -1,5 +1,7 @@
 import unicodedata
+import re
 from datetime import datetime
+from urllib.parse import urlparse
 
 from utils.models import *
 from .qobuz_api import Qobuz
@@ -12,6 +14,13 @@ module_information = ModuleInformation(
     session_settings = {'username': '', 'password': ''},
     session_storage_variables = ['token'],
     netlocation_constant = 'qobuz',
+    url_constants={
+        'track': DownloadTypeEnum.track,
+        'album': DownloadTypeEnum.album,
+        'playlist': DownloadTypeEnum.playlist,
+        'artist': DownloadTypeEnum.artist,
+        'interpreter': DownloadTypeEnum.artist
+    },
     test_url = 'https://open.qobuz.com/track/52151405'
 )
 
@@ -85,13 +94,17 @@ class ModuleInterface:
             label = album_data.get('label').get('name') if album_data.get('label') else None,
             copyright = album_data.get('copyright'),
             genres = [album_data['genre']['name']],
+            replay_gain = track_data.get('audio_info').get('replaygain_track_gain') if track_data.get('audio_info') else None,
+            replay_peak = track_data.get('audio_info').get('replaygain_track_peak') if track_data.get('audio_info') else None
         )
 
         stream_data = self.session.get_file_url(track_id, quality_tier)
         # uncompressed PCM bitrate calculation, not quite accurate for FLACs due to the up to 60% size improvement
         bitrate = 320
-        if stream_data['format_id'] in {6, 7, 27}:
+        if stream_data.get('format_id') in {6, 7, 27}:
             bitrate = int((stream_data['sampling_rate'] * 1000 * stream_data['bit_depth'] * 2) // 1000)
+        elif not stream_data.get('format_id'):
+            bitrate = stream_data.get('format_id')
 
         # track and album title fix to include version tag
         track_name = f"{track_data.get('work')} - " if track_data.get('work') else ""
@@ -114,10 +127,10 @@ class ModuleInterface:
             explicit = track_data['parental_warning'],
             cover_url = album_data['image']['large'].split('_')[0] + '_org.jpg',
             tags = tags,
-            codec = CodecEnum.FLAC if stream_data['format_id'] in {6, 7, 27} else CodecEnum.MP3,
+            codec = CodecEnum.FLAC if stream_data.get('format_id') in {6, 7, 27} else CodecEnum.NONE if not stream_data.get('format_id') else CodecEnum.MP3,
             duration = track_data.get('duration'),
             credits_extra_kwargs = {'data': {track_id: track_data}},
-            download_extra_kwargs = {'url': stream_data['url']},
+            download_extra_kwargs = {'url': stream_data.get('url')},
             error=f'Track "{track_data["title"]}" is not streamable!' if not track_data['streamable'] else None
         )
 
@@ -159,7 +172,9 @@ class ModuleInterface:
             release_year = int(album_data['release_date_original'].split('-')[0]),
             explicit = album_data['parental_warning'],
             quality = self.quality_format.format(**quality_tags) if self.quality_format != '' else None,
+            description = album_data.get('description'),
             cover_url = album_data['image']['large'].split('_')[0] + '_org.jpg',
+            all_track_cover_jpg_url = album_data['image']['large'],
             upc = album_data.get('upc'),
             duration = album_data.get('duration'),
             booklet_url = booklet_url,
@@ -180,6 +195,7 @@ class ModuleInterface:
             creator = playlist_data['owner']['name'],
             creator_id = playlist_data['owner']['id'],
             release_year = datetime.utcfromtimestamp(playlist_data['created_at']).strftime('%Y'),
+            description = playlist_data.get('description'),
             duration = playlist_data.get('duration'),
             tracks = tracks,
             track_extra_kwargs = {'data': extra_kwargs}
@@ -242,7 +258,7 @@ class ModuleInterface:
                 duration = i['duration']
             else:
                 raise Exception('Query type is invalid')
-            name = i.get('name', i['title'])
+            name = i.get('name') or i.get('title')
             name += f" ({i.get('version')})" if i.get('version') else ''
             item = SearchResult(
                 name = name,
