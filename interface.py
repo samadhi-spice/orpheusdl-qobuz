@@ -103,6 +103,8 @@ class ModuleInterface:
         bitrate = 320
         if stream_data.get('format_id') in {6, 7, 27}:
             bitrate = int((stream_data['sampling_rate'] * 1000 * stream_data['bit_depth'] * 2) // 1000)
+        elif not stream_data.get('format_id'):
+            bitrate = stream_data.get('format_id')
 
         # track and album title fix to include version tag
         track_name = f"{track_data.get('work')} - " if track_data.get('work') else ""
@@ -125,7 +127,7 @@ class ModuleInterface:
             explicit = track_data['parental_warning'],
             cover_url = album_data['image']['large'].split('_')[0] + '_org.jpg',
             tags = tags,
-            codec = CodecEnum.FLAC if stream_data['format_id'] in {6, 7, 27} else CodecEnum.MP3,
+            codec = CodecEnum.FLAC if stream_data.get('format_id') in {6, 7, 27} else CodecEnum.NONE if not stream_data.get('format_id') else CodecEnum.MP3,
             duration = track_data.get('duration'),
             credits_extra_kwargs = {'data': {track_id: track_data}},
             download_extra_kwargs = {'url': stream_data.get('url')},
