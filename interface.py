@@ -10,10 +10,9 @@ from .qobuz_api import Qobuz
 module_information = ModuleInformation(
     service_name = 'Qobuz',
     module_supported_modes = ModuleModes.download | ModuleModes.credits,
-    global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{sample_rate}kHz {bit_depth}bit'},
-    session_settings = {'username': '', 'password': ''},
-    session_storage_variables = ['token'],
+    global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{sample_rate}kHz {bit_depth}bit','user_id':'', 'auth_token': ''},
     netlocation_constant = 'qobuz',
+    login_behaviour = ManualEnum.manual,
     url_constants={
         'track': DownloadTypeEnum.track,
         'album': DownloadTypeEnum.album,
@@ -29,9 +28,9 @@ module_information = ModuleInformation(
 class ModuleInterface:
     def __init__(self, module_controller: ModuleController):
         settings = module_controller.module_settings
-        self.session = Qobuz(settings['app_id'], settings['app_secret'], module_controller.module_error) # TODO: get rid of this module_error thing
-        self.session.auth_token = module_controller.temporary_settings_controller.read('token')
+        self.session = Qobuz(settings['app_id'], settings['app_secret'], settings['auth_token'], module_controller.module_error) # TODO: get rid of this module_error thing
         self.module_controller = module_controller
+        self.session.check_token()
 
         # 5 = 320 kbps MP3, 6 = 16-bit FLAC, 7 = 24-bit / =< 96kHz FLAC, 27 =< 192 kHz FLAC
         self.quality_parse = {
@@ -45,10 +44,6 @@ class ModuleInterface:
         self.quality_tier = module_controller.orpheus_options.quality_tier
         self.quality_format = settings.get('quality_format')
 
-    def login(self, email, password):
-        token = self.session.login(email, password)
-        self.session.auth_token = token
-        self.module_controller.temporary_settings_controller.set('token', token)
 
     def get_track_info(self, track_id, quality_tier: QualityEnum, codec_options: CodecOptions, data={}):
         track_data = data[track_id] if track_id in data else self.session.get_track(track_id)
