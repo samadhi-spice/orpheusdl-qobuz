@@ -125,7 +125,7 @@ class Qobuz:
             'offset': '0'
         })
 
-        def get_label(self, label_id: str):
+    def get_label(self, label_id: str):
         return self._get('label/get', params={
             'label_id': label_id,
             'app_id': self.app_id,
