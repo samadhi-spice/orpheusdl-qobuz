@@ -10,7 +10,7 @@ from .qobuz_api import Qobuz
 module_information = ModuleInformation(
     service_name = 'Qobuz',
     module_supported_modes = ModuleModes.download | ModuleModes.credits,
-    global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{bit_depth}B-{sample_rate}kHz','user_id':'', 'auth_token': ''},
+    global_settings = {'app_id': '', 'app_secret': '', 'quality_format': '{sample_rate}kHz {bit_depth}bit','user_id':'', 'auth_token': ''},
     netlocation_constant = 'qobuz',
     login_behaviour = ManualEnum.manual,
     url_constants={
